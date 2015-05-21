@@ -1,0 +1,103 @@
+<html>
+<head>
+</head>
+<body>
+
+<style>
+
+#tweet_it {
+background-image: url(twitter_logo_blue.png);
+text-indent: -9999px;
+height: 30px;
+width: 30px;
+display: block;
+position: absolute;
+}
+
+</style>
+
+<div id="title">
+  <h1>
+    Text you can not auto-tweet
+    </h1>
+</div>
+
+<div id="content">
+We know from [Caesar's journals] that Caesar is not taking this lightly.
+He knows that if he marches on Rome with his armies, then he is a public enemy, and that he will either have to win, or die.
+For a Roman patrician like Julius Caesar there is no life without military service; there is no life without service to the state. He cannot simply 'go native' and stay in Gaul, and he does realise that if he goes back to Rome, he would be killed. At this time the northernmost border of the Roman territory in Italy is the River Rubicon. Once someone crosses the River Rubicon, he's in Roman territory. A general must not cross that boundary with his army – he must do what the Romans call lay down his command, which means surrender his right to order troops, and certainly not be carrying weapons. Caesar and his armies hesitate quite a while at this river while Caesar decides what to do, and Caesar tells us that he informs his soldiers that it's a little tiny bridge across the river, but once they cross it they'll have to fight their way all the way to Rome, and Caesar is well aware that he's risking not just his own life, but those of his loyal soldiers, and he might not win. Pompey is a formidable enemy. It's also impossible to avoid the fact that Caesar was attacking the state, and as a patrician Roman this would have been very difficult for him, equivalent to beating up your father. He wouldn't have done any of this lightly. Finally he makes a decision, it's time to go, and he uses a gambling metaphor: he says 'Roll the dice', 'Alea jacta est'.[1] Once the dice start rolling they cannot be controlled, even though we don't know what it is as the dice roll and tumble. Julius and his men swiftly cross the river and they march double time toward Rome, where they almost beat the messengers sent to inform the Senate of their arrival.
+— Titchener, To Rule Mankind and Make the World Obey
+</div>
+
+<a id="tweet_it" href="" target="_bank" style="visibility=hidden;display:none;">Tweet</a>
+
+<script language="javascript">
+
+function tweet_it(text, x, y)
+{
+  var twitter_url = 'http://twitter.com/intent/tweet?text=' + encodeURIComponent(text);
+  
+  // update link
+  the_bird = document.getElementById('tweet_it');
+  the_bird.href = twitter_url;
+  the_bird.onclick = function()
+  { 
+    window.open(twitter_url,'','resizable,height=500,width=542');
+    return false;
+  };
+  
+  // position the bird
+  the_bird.style.top = y - 15;
+  the_bird.style.left = x;
+  
+  // show me the money
+  the_bird.style.visibility = 'visible';
+  the_bird.style.display = 'block';
+}
+
+function tweet_selection(e)
+{
+  var len;
+  var max_tweet_len = 117; // we need to add url
+  var twitter_text;
+  var selected_text = (document.all) ? document.selection.createRange().text : // IE before 9
+  document.getSelection(); // FF and co
+  var x = e.clientX; // position of mouse
+  var y = e.clientY;
+
+  // sel is a string in Firefox and Opera, 
+  // and a selectionRange object in Google Chrome, Safari and IE from version 9
+  if (typeof(selected_text) != 'string')
+  {
+    selected_text = selected_text.toString();
+  }
+  
+  // check if empty or only white chars
+  if (!selected_text || /^\s+$/.test(selected_text))
+  {
+    // force display none of the piaf
+    document.getElementById('tweet_it').style.visibility = 'hidden';
+    document.getElementById('tweet_it').style.display = 'none';
+    return;
+  }
+  
+  // truncate text if needed
+  len = selected_text.length;
+  if (len > 114)
+  {
+    selected_text = selected_text.substring(0, max_tweet_len) + '...';
+  }
+  
+  // add url to text;
+  twitter_text = selected_text + ' ' + window.location.href;
+  
+  tweet_it(twitter_text, x, y);
+}
+
+document.getElementById('content').onmouseup = tweet_selection;
+if (!document.all) document.captureEvents(Event.MOUSEUP);
+
+</script>
+
+</body>
+</html>
